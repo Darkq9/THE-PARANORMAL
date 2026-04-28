@@ -4,1040 +4,187 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>THE PARANORMAL</title>
-  <style>
-    :root {
-      --bg: #090d0f;
-      --bg-alt: #11181a;
-      --panel: rgba(10, 16, 18, 0.78);
-      --panel-strong: rgba(14, 21, 24, 0.92);
-      --line: rgba(229, 220, 203, 0.16);
-      --text: #e5dccb;
-      --muted: #a9a08f;
-      --cold: #88d6d0;
-      --gold: #cca16a;
-      --warn: #b6544a;
-      --shadow: rgba(0, 0, 0, 0.45);
-      --max: 1180px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      color: var(--text);
-      background:
-        linear-gradient(180deg, rgba(7, 11, 12, 0.96), rgba(9, 13, 15, 0.98)),
-        repeating-linear-gradient(
-          90deg,
-          rgba(136, 214, 208, 0.05) 0,
-          rgba(136, 214, 208, 0.05) 1px,
-          transparent 1px,
-          transparent 120px
-        ),
-        linear-gradient(180deg, #0b1012, #121112 42%, #080b0d 100%);
-      font-family: "Avenir Next", "Segoe UI", sans-serif;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      display: block;
-      max-width: 100%;
-    }
-
-    .shell {
-      width: min(var(--max), calc(100% - 2rem));
-      margin: 0 auto;
-    }
-
-    .site-header {
-      position: fixed;
-      inset: 0 0 auto 0;
-      z-index: 20;
-      backdrop-filter: blur(12px);
-      background: rgba(8, 11, 13, 0.52);
-      border-bottom: 1px solid rgba(136, 214, 208, 0.08);
-    }
-
-    .site-header .shell {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      min-height: 74px;
-    }
-
-    .brand {
-      display: inline-flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
-
-    .brand-mark,
-    h1,
-    h2,
-    h3 {
-      font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
-      letter-spacing: 0;
-    }
-
-    .brand-mark {
-      font-size: 1.15rem;
-      font-weight: 700;
-    }
-
-    .brand-tag {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2rem;
-      color: var(--muted);
-    }
-
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 1rem;
-      font-size: 0.92rem;
-      color: var(--muted);
-    }
-
-    .nav a {
-      position: relative;
-      padding-bottom: 0.2rem;
-    }
-
-    .nav a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 1px;
-      background: var(--cold);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 220ms ease;
-    }
-
-    .nav a:hover::after,
-    .nav a:focus-visible::after {
-      transform: scaleX(1);
-    }
-
-    .hero {
-      position: relative;
-      min-height: 100svh;
-      display: grid;
-      align-items: center;
-      padding: 7.5rem 0 4rem;
-      border-bottom: 1px solid var(--line);
-      overflow: clip;
-    }
-
-    #signal-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.72;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, rgba(6, 9, 10, 0.28), rgba(6, 9, 10, 0.84) 78%),
-        linear-gradient(90deg, rgba(6, 9, 10, 0.8), rgba(6, 9, 10, 0.22) 48%, rgba(6, 9, 10, 0.9));
-      pointer-events: none;
-    }
-
-    .hero-layout {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(310px, 0.85fr);
-      gap: 2rem;
-      align-items: end;
-    }
-
-    .eyebrow,
-    .section-kicker,
-    .tag,
-    .signal-label,
-    .log-date {
-      text-transform: uppercase;
-      letter-spacing: 0.22rem;
-      font-size: 0.76rem;
-    }
-
-    .eyebrow,
-    .section-kicker,
-    .tag,
-    .log-date {
-      color: var(--cold);
-    }
-
-    .hero-copy {
-      max-width: 700px;
-    }
-
-    .hero-copy h1 {
-      margin: 0.5rem 0 1rem;
-      font-size: clamp(3.2rem, 8vw, 6.7rem);
-      line-height: 0.95;
-      text-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    }
-
-    .hero-copy p {
-      max-width: 42rem;
-      font-size: 1.05rem;
-      color: #d8d0c1;
-      margin-bottom: 2rem;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.9rem;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 0.85rem 1.25rem;
-      border: 1px solid transparent;
-      border-radius: 999px;
-      font-weight: 600;
-      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
-    }
-
-    .button:hover,
-    .button:focus-visible {
-      transform: translateY(-1px);
-    }
-
-    .button-primary {
-      background: linear-gradient(135deg, rgba(136, 214, 208, 0.22), rgba(204, 161, 106, 0.28));
-      border-color: rgba(136, 214, 208, 0.4);
-    }
-
-    .button-secondary {
-      background: rgba(12, 17, 19, 0.48);
-      border-color: rgba(229, 220, 203, 0.18);
-      color: var(--muted);
-    }
-
-    .hero-panel {
-      position: relative;
-      padding: 1.35rem;
-      background: linear-gradient(180deg, rgba(11, 18, 20, 0.92), rgba(8, 13, 14, 0.82));
-      border: 1px solid rgba(136, 214, 208, 0.18);
-      box-shadow: 0 24px 80px var(--shadow);
-    }
-
-    .hero-panel::before {
-      content: "";
-      position: absolute;
-      inset: 0.75rem;
-      border: 1px solid rgba(204, 161, 106, 0.16);
-      pointer-events: none;
-    }
-
-    .panel-top,
-    .panel-stats,
-    .signal-bars,
-    .phenomena-grid,
-    .case-grid,
-    .notes,
-    .footer-grid {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .panel-top {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      margin-bottom: 1rem;
-    }
-
-    .metric {
-      padding: 0.8rem 0.9rem;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(229, 220, 203, 0.08);
-    }
-
-    .metric strong {
-      display: block;
-      font-size: 1.6rem;
-      color: var(--gold);
-      font-weight: 600;
-    }
-
-    .signal-box {
-      padding: 1rem;
-      border: 1px solid rgba(136, 214, 208, 0.12);
-      background:
-        linear-gradient(180deg, rgba(136, 214, 208, 0.02), rgba(136, 214, 208, 0)),
-        repeating-linear-gradient(
-          180deg,
-          rgba(136, 214, 208, 0.08) 0,
-          rgba(136, 214, 208, 0.08) 1px,
-          transparent 1px,
-          transparent 24px
-        );
-    }
-
-    .signal-label {
-      display: flex;
-      justify-content: space-between;
-      gap: 0.75rem;
-      margin-bottom: 0.9rem;
-      color: var(--muted);
-    }
-
-    .signal-bars {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      align-items: end;
-      min-height: 120px;
-    }
-
-    .signal-bars span {
-      display: block;
-      min-height: 22px;
-      background: linear-gradient(180deg, var(--cold), rgba(136, 214, 208, 0.14));
-      border-radius: 999px 999px 0 0;
-      animation: pulse 2.8s ease-in-out infinite;
-      transform-origin: bottom;
-    }
-
-    .signal-bars span:nth-child(2n) {
-      animation-duration: 2.2s;
-    }
-
-    .signal-bars span:nth-child(3n) {
-      animation-duration: 3.1s;
-    }
-
-    .panel-stats {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      margin-top: 1rem;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .panel-stats strong {
-      display: block;
-      font-size: 1rem;
-      color: var(--text);
-      margin-bottom: 0.25rem;
-    }
-
-    section {
-      padding: 5rem 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    footer {
-      padding: 4.5rem 0 2rem;
-      background: linear-gradient(180deg, rgba(8, 11, 13, 0.98), rgba(5, 8, 9, 1));
-    }
-
-    .section-head {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(260px, 380px);
-      gap: 1.5rem;
-      align-items: end;
-      margin-bottom: 2rem;
-    }
-
-    .section-head h2 {
-      margin: 0.35rem 0 0;
-      font-size: clamp(2rem, 4vw, 3.35rem);
-      line-height: 1;
-    }
-
-    .section-head p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .phenomena-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .panel-card,
-    .case-card,
-    .note-card,
-    .quote-panel {
-      background: var(--panel);
-      border: 1px solid rgba(229, 220, 203, 0.08);
-      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24);
-    }
-
-    .panel-card,
-    .case-card {
-      padding: 1.4rem;
-      min-height: 100%;
-    }
-
-    .tag {
-      display: inline-flex;
-      margin-bottom: 0.75rem;
-      color: var(--gold);
-    }
-
-    .panel-card h3,
-    .case-card h3,
-    .quote-panel h3,
-    .archive-copy h3 {
-      margin: 0 0 0.65rem;
-      font-size: 1.4rem;
-    }
-
-    .panel-card p,
-    .case-card p,
-    .archive-copy p,
-    .note-card p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .case-grid {
-      grid-template-columns: 1.1fr 0.9fr;
-      align-items: start;
-    }
-
-    .case-stack {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .case-card.featured {
-      position: relative;
-      padding-top: 1.8rem;
-      background:
-        linear-gradient(180deg, rgba(136, 214, 208, 0.04), rgba(0, 0, 0, 0)),
-        var(--panel-strong);
-    }
-
-    .case-card.featured::before {
-      content: "Live File";
-      position: absolute;
-      top: 0.9rem;
-      right: 1rem;
-      color: var(--warn);
-      text-transform: uppercase;
-      letter-spacing: 0.18rem;
-      font-size: 0.72rem;
-    }
-
-    .case-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem 1.2rem;
-      margin-top: 1rem;
-      color: #c6bdad;
-      font-size: 0.92rem;
-    }
-
-    .quote-panel {
-      padding: 1.5rem;
-      background:
-        linear-gradient(180deg, rgba(204, 161, 106, 0.06), rgba(0, 0, 0, 0)),
-        rgba(12, 17, 18, 0.82);
-    }
-
-    blockquote {
-      margin: 0;
-      font-size: 1.3rem;
-      line-height: 1.5;
-      font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
-    }
-
-    .quote-panel footer {
-      margin-top: 1rem;
-      color: var(--gold);
-      font-size: 0.95rem;
-    }
-
-    .archive {
-      background:
-        linear-gradient(180deg, rgba(204, 161, 106, 0.06), rgba(0, 0, 0, 0)),
-        linear-gradient(180deg, rgba(10, 15, 16, 0.98), rgba(8, 12, 14, 0.98));
-    }
-
-    .archive-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-      gap: 1.5rem;
-      align-items: start;
-    }
-
-    .archive-copy {
-      padding-right: 1rem;
-    }
-
-    .notes {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .note-card {
-      padding: 1.2rem;
-      min-height: 180px;
-      background:
-        linear-gradient(180deg, rgba(136, 214, 208, 0.03), rgba(0, 0, 0, 0)),
-        rgba(11, 17, 18, 0.84);
-    }
-
-    .footer-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      padding-bottom: 0.5rem;
-    }
-
-    .footer-col {
-      color: var(--muted);
-    }
-
-    .footer-col strong {
-      display: block;
-      margin-bottom: 0.45rem;
-      color: var(--text);
-    }
-
-    .section-kicker,
-    .brand-tag,
-    .eyebrow,
-    .log-date {
-      font-weight: 600;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity 700ms ease, transform 700ms ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        transform: scaleY(0.48);
-        opacity: 0.5;
-      }
-      50% {
-        transform: scaleY(1);
-        opacity: 1;
-      }
-    }
-
-    @media (max-width: 980px) {
-      .hero-layout,
-      .section-head,
-      .case-grid,
-      .archive-layout,
-      .phenomena-grid,
-      .notes,
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        min-height: auto;
-        padding-top: 6.8rem;
-      }
-
-      .panel-top,
-      .panel-stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 640px) {
-      .shell {
-        width: min(var(--max), calc(100% - 1.2rem));
-      }
-
-      .site-header .shell {
-        align-items: start;
-        padding: 0.8rem 0;
-      }
-
-      .nav {
-        gap: 0.7rem 1rem;
-        font-size: 0.85rem;
-      }
-
-      .hero-copy p,
-      .section-head p {
-        font-size: 0.98rem;
-      }
-
-      .actions {
-        flex-direction: column;
-      }
-
-      .button {
-        width: 100%;
-      }
-
-      .panel-top,
-      .panel-stats,
-      .notes {
-        grid-template-columns: 1fr;
-      }
-
-      .signal-bars {
-        min-height: 88px;
-      }
-
-      blockquote {
-        font-size: 1.12rem;
-      }
-    }
-  </style>
+  <meta name="description" content="THE PARANORMAL explores the unknown through animated pages on UFOs, advanced technology, whistleblowers, lost civilizations, alien races, and other unresolved mysteries.">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="home-page" style="--accent:#00e5ff;--accent-soft:rgba(0,229,255,0.22);--accent-alt:#ff6b35;">
+  <div class="scanlines" aria-hidden="true"></div>
   <header class="site-header">
-    <div class="shell">
-      <a class="brand" href="#top" aria-label="THE PARANORMAL home">
+    <div class="shell header-row">
+      <a class="brand" href="index.html">
         <span class="brand-mark">THE PARANORMAL</span>
-        <span class="brand-tag">Archive of the unexplained</span>
+        <span class="brand-sub">Black files of the unexplained</span>
       </a>
-      <nav class="nav" aria-label="Primary navigation">
-        <a href="#phenomena">Phenomena</a>
-        <a href="#cases">Case Files</a>
-        <a href="#archive">Archive</a>
-        <a href="#contact">Contact</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="#topics">Topics</a>
+        <a href="#signals">Signals</a>
+        <a href="#manifesto">Manifesto</a>
       </nav>
     </div>
   </header>
 
-  <main id="top">
-    <section class="hero">
-      <canvas id="signal-canvas" aria-hidden="true"></canvas>
-      <div class="shell hero-layout">
+  <main>
+    <section class="hero hero-home">
+      <canvas class="sky-canvas" aria-hidden="true"></canvas>
+      <div class="shell hero-grid">
         <div class="hero-copy reveal">
-          <div class="eyebrow">Where folklore meets investigation</div>
+          <p class="eyebrow">An archive of shadows, evidence, and impossible claims</p>
           <h1>THE PARANORMAL</h1>
-          <p>
-            A haunting digital archive for sightings, strange transmissions, and the
-            lingering mysteries that refuse to stay buried. Step into a curated world
-            of shadowy encounters, abandoned frequencies, and questions science has
-            not finished answering.
+          <p class="hero-text">
+            A stark black-and-white investigation hub built around the mysteries people
+            cannot stop chasing. From UFO encounters to missing persons and sealed
+            government experiments, each file opens into its own animated world.
           </p>
-          <div class="actions">
-            <a class="button button-primary" href="#cases">Enter the case files</a>
-            <a class="button button-secondary" href="#archive">Explore the archive</a>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#topics">Explore the pages</a>
+            <a class="button button-secondary" href="#manifesto">Read the manifesto</a>
           </div>
         </div>
 
-        <aside class="hero-panel reveal" aria-label="Field signal monitor">
-          <div class="panel-top">
-            <div class="metric">
-              <span class="section-kicker">Active cases</span>
-              <strong>27</strong>
+        <aside class="signal-panel reveal" id="signals">
+          <div class="panel-label">Live signal board</div>
+          <div class="signal-list">
+            <div>
+              <strong>09</strong>
+              <span>Topic pages online</span>
             </div>
-            <div class="metric">
-              <span class="section-kicker">Last signal</span>
-              <strong>03:14</strong>
+            <div>
+              <strong>24/7</strong>
+              <span>Archive scan running</span>
+            </div>
+            <div>
+              <strong>BW+</strong>
+              <span>Monochrome core, color on action</span>
             </div>
           </div>
-
-          <div class="signal-box">
-            <div class="signal-label">
-              <span>Frequency drift</span>
-              <span>Unstable</span>
-            </div>
-            <div class="signal-bars" aria-hidden="true">
-              <span style="height: 28%"></span>
-              <span style="height: 52%"></span>
-              <span style="height: 82%"></span>
-              <span style="height: 60%"></span>
-              <span style="height: 34%"></span>
-              <span style="height: 76%"></span>
-              <span style="height: 44%"></span>
-              <span style="height: 88%"></span>
-              <span style="height: 57%"></span>
-              <span style="height: 30%"></span>
-              <span style="height: 68%"></span>
-              <span style="height: 47%"></span>
-            </div>
-          </div>
-
-          <div class="panel-stats">
-            <div>
-              <strong>Cold spots</strong>
-              Sudden temperature collapses in sealed rooms.
-            </div>
-            <div>
-              <strong>Voice print</strong>
-              Whisper patterns emerging beneath analog noise.
-            </div>
-            <div>
-              <strong>Night watch</strong>
-              Sightings peak between midnight and first light.
-            </div>
+          <div class="signal-wave" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span>
           </div>
         </aside>
       </div>
     </section>
 
-    <section id="phenomena">
+    <section class="section-shell" id="topics">
       <div class="shell">
         <div class="section-head reveal">
           <div>
-            <div class="section-kicker">Unknown categories</div>
-            <h2>Phenomena worth chasing</h2>
+            <p class="eyebrow">Topic network</p>
+            <h2>Nine portals into the unknown</h2>
           </div>
-          <p>
-            Every chapter of the unknown leaves a different trace: a broken radio,
-            a corridor gone cold, a figure where no figure should be.
+          <p class="section-copy">
+            Each page keeps the base palette black and white, then shifts its buttons,
+            hover states, and animated highlights into a different accent color.
           </p>
         </div>
 
-        <div class="phenomena-grid">
-          <article class="panel-card reveal">
-            <span class="tag">Apparitions</span>
-            <h3>Ghost sightings</h3>
-            <p>
-              Firsthand encounters, residual hauntings, and apparitions that appear
-              tied to place, grief, or unfinished ritual.
-            </p>
-          </article>
-          <article class="panel-card reveal">
-            <span class="tag">Thresholds</span>
-            <h3>Lost places</h3>
-            <p>
-              Forest clearings, abandoned hospitals, and old houses where time feels
-              slightly bent and direction becomes unreliable.
-            </p>
-          </article>
-          <article class="panel-card reveal">
-            <span class="tag">Signals</span>
-            <h3>Unexplained transmissions</h3>
-            <p>
-              Numbers stations, EVP fragments, and recordings that carry voices no
-              one remembers speaking into the machine.
-            </p>
-          </article>
+        <div class="topic-grid">
+          <a class="topic-card reveal" href="ufo-phenomenon.html" style="--card-accent:#00e5ff;">
+            <span class="topic-index">01</span>
+            <h3>UFO Phenomenon</h3>
+            <p>Lights, craft, radar ghosts, and witnesses who swear the sky blinked back.</p>
+            <span class="topic-link">Open page</span>
+          </a>
+
+          <a class="topic-card reveal" href="advanced-technology.html" style="--card-accent:#66ff99;">
+            <span class="topic-index">02</span>
+            <h3>Advanced Technology</h3>
+            <p>Rumors of inventions too early, too quiet, or too far ahead to explain away.</p>
+            <span class="topic-link">Open page</span>
+          </a>
+
+          <a class="topic-card reveal" href="whistleblowers.html" style="--card-accent:#ffb000;">
+            <span class="topic-index">03</span>
+            <h3>Whistleblowers</h3>
+            <p>Insiders, leaked testimony, and voices that cracked the official story.</p>
+            <span class="topic-link">Open page</span>
+          </a>
+
+          <a class="topic-card reveal" href="lost-civilisations.html" style="--card-accent:#ff6b35;">
+            <span class="topic-index">04</span>
+            <h3>Lost Civilisations</h3>
+            <p>Forgotten builders, drowned cities, and maps that do not fit the timeline.</p>
+            <span class="topic-link">Open page</span>
+          </a>
+
+          <a class="topic-card reveal" href="religion-lore.html" style="--card-accent:#f15bb5;">
+            <span class="topic-index">05</span>
+            <h3>Religion Lore</h3>
+            <p>Apocrypha, sacred warnings, and myths that refuse to stay symbolic.</p>
+            <span class="topic-link">Open page</span>
+          </a>
+
+          <a class="topic-card reveal" href="government-experiments.html" style="--card-accent:#ff3b30;">
+            <span class="topic-index">06</span>
+            <h3>Government Experiments</h3>
+            <p>Black budgets, classified labs, and projects filed under denial.</p>
+            <span class="topic-link">Open page</span>
+          </a>
+
+          <a class="topic-card reveal" href="alien-races.html" style="--card-accent:#8aff00;">
+            <span class="topic-index">07</span>
+            <h3>Alien Races</h3>
+            <p>Competing descriptions of visitors, motives, and anatomies beyond folklore.</p>
+            <span class="topic-link">Open page</span>
+          </a>
+
+          <a class="topic-card reveal" href="missing-persons.html" style="--card-accent:#ffd166;">
+            <span class="topic-index">08</span>
+            <h3>Missing Persons</h3>
+            <p>Disappearance cases tangled with wilderness, time gaps, and impossible traces.</p>
+            <span class="topic-link">Open page</span>
+          </a>
+
+          <a class="topic-card reveal" href="murders-and-other-crimes.html" style="--card-accent:#c1121f;">
+            <span class="topic-index">09</span>
+            <h3>Murders and Other Crimes</h3>
+            <p>Unsolved violence, ritual signatures, and crime scenes that disturb investigators.</p>
+            <span class="topic-link">Open page</span>
+          </a>
         </div>
       </div>
     </section>
 
-    <section id="cases">
+    <section class="section-shell manifesto" id="manifesto">
       <div class="shell">
         <div class="section-head reveal">
           <div>
-            <div class="section-kicker">Recent investigations</div>
-            <h2>Case files from the edge</h2>
+            <p class="eyebrow">Manifesto</p>
+            <h2>The site lives in black and white for a reason</h2>
           </div>
-          <p>
-            These reports blend folklore, field notes, and modern analysis to trace
-            the line between atmosphere and evidence.
+          <p class="section-copy">
+            The unknown works best when the page feels stark, deliberate, and forensic.
+            Color only appears where curiosity becomes action: buttons, prompts, links,
+            and motion cues that invite the visitor deeper.
           </p>
         </div>
 
-        <div class="case-grid">
-          <article class="case-card featured reveal">
-            <span class="tag">Case 09</span>
-            <h3>The lantern in Black Hollow</h3>
-            <p>
-              Witnesses describe a floating amber light pacing the ridge for exactly
-              seven minutes before vanishing into the trees. The pattern repeats only
-              on windless nights, always after a nearby church bell rings.
-            </p>
-            <div class="case-meta">
-              <span>Location: West ridge trail</span>
-              <span>Evidence: Audio distortion</span>
-              <span>Status: Ongoing</span>
-            </div>
+        <div class="feature-grid">
+          <article class="feature-panel reveal">
+            <h3>Monochrome base</h3>
+            <p>Dark fields, pale text, and sharp borders keep the site cinematic and publish-ready.</p>
           </article>
-
-          <div class="case-stack">
-            <article class="case-card reveal">
-              <span class="tag">Case 14</span>
-              <h3>Whispers beneath the station floor</h3>
-              <p>
-                Maintenance crews reported layered voices under the old platform,
-                audible only when the final train passed through after midnight.
-              </p>
-            </article>
-            <article class="case-card reveal">
-              <span class="tag">Case 22</span>
-              <h3>The room with no echo</h3>
-              <p>
-                A sealed chamber in a ruined estate absorbs sound strangely, as if the
-                walls are listening instead of reflecting anything back.
-              </p>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="shell">
-        <div class="section-head reveal">
-          <div>
-            <div class="section-kicker">Field testimony</div>
-            <h2>What witnesses leave behind</h2>
-          </div>
-          <p>
-            The strongest stories rarely arrive polished. They come in fragments,
-            missing time, and details too precise to dismiss.
-          </p>
-        </div>
-
-        <div class="case-grid">
-          <div class="quote-panel reveal">
-            <h3>Recovered transcript</h3>
-            <blockquote>
-              “The hallway was empty when I turned the corner, but the footprints
-              kept appearing ahead of me, one by one, as if something invisible was
-              walking just out of reach.”
-            </blockquote>
-            <footer>Field note, northern infirmary investigation</footer>
-          </div>
-
-          <article class="case-card reveal">
-            <span class="tag">Patterns observed</span>
-            <h3>Shared details across unrelated reports</h3>
-            <p>
-              Reports from different regions still repeat the same motifs: burnt
-              ozone, static on battery-powered devices, and sudden silence before an
-              event begins.
-            </p>
-            <div class="case-meta">
-              <span>Cold air</span>
-              <span>Clock failure</span>
-              <span>Missing minutes</span>
-            </div>
+          <article class="feature-panel reveal">
+            <h3>Animated atmosphere</h3>
+            <p>Each page uses a moving canvas background, hover motion, and staggered reveals.</p>
           </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="archive" class="archive">
-      <div class="shell archive-layout">
-        <div class="archive-copy reveal">
-          <div class="section-kicker">Deep archive</div>
-          <h2>Artifacts from the unknown</h2>
-          <p>
-            Beyond the dramatic sightings are the quiet clues: journals, ritual maps,
-            weathered photographs, and radio logs from people who believed they had
-            brushed against something larger than themselves.
-          </p>
-        </div>
-
-        <div class="notes">
-          <article class="note-card reveal">
-            <div class="log-date">Log 01</div>
-            <h3>Midnight frequencies</h3>
-            <p>
-              A catalog of strange broadcasts, number patterns, and fragments of
-              speech captured in empty-band recordings.
-            </p>
-          </article>
-          <article class="note-card reveal">
-            <div class="log-date">Log 02</div>
-            <h3>Occult symbols</h3>
-            <p>
-              Markings found in tunnels, attics, and forgotten rooms where local
-              legends insist the veil once thinned.
-            </p>
-          </article>
-          <article class="note-card reveal">
-            <div class="log-date">Log 03</div>
-            <h3>Vanishing roads</h3>
-            <p>
-              Witness maps showing routes that appear on paper, disappear in fog, and
-              return only after sunrise.
-            </p>
-          </article>
-          <article class="note-card reveal">
-            <div class="log-date">Log 04</div>
-            <h3>Shadow chronology</h3>
-            <p>
-              Timeline fragments from recurring sightings where the same silhouette
-              seems to reappear decades apart.
-            </p>
+          <article class="feature-panel reveal">
+            <h3>Separate pages</h3>
+            <p>Your topic list is not buried inside one scroll. Every subject has its own destination.</p>
           </article>
         </div>
       </div>
     </section>
   </main>
 
-  <footer id="contact">
-    <div class="shell">
-      <div class="section-head reveal">
-        <div>
-          <div class="section-kicker">Stay on watch</div>
-          <h2>Send your next impossible story</h2>
-        </div>
-        <p>
-          The archive is always listening for new reports, old folklore, and the
-          small details that turn rumor into a trail worth following.
-        </p>
-      </div>
-
-      <div class="footer-grid reveal">
-        <div class="footer-col">
-          <strong>Investigations</strong>
-          Case-led explorations of haunted sites, strange sounds, and disappearing
-          landmarks.
-        </div>
-        <div class="footer-col">
-          <strong>Research</strong>
-          Folklore comparisons, witness timelines, and cross-referenced anomalies.
-        </div>
-        <div class="footer-col">
-          <strong>Contact</strong>
-          archive@theparanormal.example<br>
-          Midnight desk open nightly
-        </div>
-      </div>
+  <footer class="site-footer">
+    <div class="shell footer-row">
+      <p>THE PARANORMAL is a static HTML website ready to publish as-is.</p>
+      <a class="button button-secondary" href="ufo-phenomenon.html">Start with UFO Phenomenon</a>
     </div>
   </footer>
 
-  <script>
-    const canvas = document.getElementById("signal-canvas");
-    const ctx = canvas.getContext("2d");
-    const stars = [];
-    const sweeps = [];
-
-    function resizeCanvas() {
-      const ratio = window.devicePixelRatio || 1;
-      canvas.width = window.innerWidth * ratio;
-      canvas.height = window.innerHeight * ratio;
-      canvas.style.width = window.innerWidth + "px";
-      canvas.style.height = window.innerHeight + "px";
-      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-      buildScene();
-    }
-
-    function buildScene() {
-      stars.length = 0;
-      sweeps.length = 0;
-
-      const starCount = Math.min(140, Math.floor(window.innerWidth / 10));
-      for (let index = 0; index < starCount; index += 1) {
-        stars.push({
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
-          radius: Math.random() * 1.8 + 0.4,
-          alpha: Math.random() * 0.6 + 0.15,
-          drift: Math.random() * 0.12 + 0.03
-        });
-      }
-
-      const sweepCount = 6;
-      for (let index = 0; index < sweepCount; index += 1) {
-        sweeps.push({
-          x: Math.random() * window.innerWidth,
-          width: Math.random() * 180 + 90,
-          speed: Math.random() * 0.22 + 0.08,
-          opacity: Math.random() * 0.12 + 0.04
-        });
-      }
-    }
-
-    function drawMist(time) {
-      for (const sweep of sweeps) {
-        sweep.x += sweep.speed;
-        if (sweep.x - sweep.width > window.innerWidth) {
-          sweep.x = -sweep.width;
-        }
-
-        const gradient = ctx.createLinearGradient(sweep.x, 0, sweep.x + sweep.width, 0);
-        gradient.addColorStop(0, "rgba(136, 214, 208, 0)");
-        gradient.addColorStop(0.5, "rgba(136, 214, 208, " + sweep.opacity + ")");
-        gradient.addColorStop(1, "rgba(136, 214, 208, 0)");
-
-        ctx.fillStyle = gradient;
-        ctx.fillRect(sweep.x, 0, sweep.width, window.innerHeight);
-      }
-
-      ctx.strokeStyle = "rgba(204, 161, 106, 0.08)";
-      ctx.lineWidth = 1;
-      for (let row = 0; row < window.innerHeight; row += 72) {
-        const offset = Math.sin((time * 0.0007) + row * 0.02) * 26;
-        ctx.beginPath();
-        ctx.moveTo(0, row + offset);
-        ctx.quadraticCurveTo(
-          window.innerWidth * 0.45,
-          row - offset,
-          window.innerWidth,
-          row + offset * 0.4
-        );
-        ctx.stroke();
-      }
-    }
-
-    function drawStars(time) {
-      for (const star of stars) {
-        const flicker = Math.sin(time * 0.001 + star.x * 0.01 + star.y * 0.02) * 0.18;
-        ctx.beginPath();
-        ctx.fillStyle = "rgba(229, 220, 203, " + (star.alpha + flicker) + ")";
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fill();
-
-        star.y += star.drift;
-        if (star.y > window.innerHeight) {
-          star.y = -4;
-        }
-      }
-    }
-
-    function drawScan(time) {
-      const y = (time * 0.06) % (window.innerHeight + 120) - 120;
-      const gradient = ctx.createLinearGradient(0, y, 0, y + 130);
-      gradient.addColorStop(0, "rgba(136, 214, 208, 0)");
-      gradient.addColorStop(0.5, "rgba(136, 214, 208, 0.16)");
-      gradient.addColorStop(1, "rgba(136, 214, 208, 0)");
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, y, window.innerWidth, 130);
-    }
-
-    function render(time) {
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      drawMist(time);
-      drawStars(time);
-      drawScan(time);
-      requestAnimationFrame(render);
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
-      });
-    }, { threshold: 0.18 });
-
-    document.querySelectorAll(".reveal").forEach((element) => {
-      observer.observe(element);
-    });
-
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-    requestAnimationFrame(render);
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
